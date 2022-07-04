@@ -17,11 +17,10 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: 60,
+                Image.asset(
+                  "images/logo.png",
                   height: 24,
-                  color: Colors.green,
+                  fit: BoxFit.contain,
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 31),
@@ -33,7 +32,13 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 1),
                         child: Text(
                           "모임을 편안하게,",
-                          style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 21, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                            fontFamily: "Pretendard",
+                            fontSize: 21,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF000000),
+                            height: 1.5,
+                          ),
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -46,14 +51,26 @@ class HomeScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 6),
                             child: Text(
                               "밋블",
-                              style: Theme.of(context).textTheme.headlineLarge,
+                              style: TextStyle(
+                                fontFamily: "Pretendard",
+                                fontSize: 32,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF000000),
+                                height: 1.5,
+                              ),
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
                             "Meetble",
-                            style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 16),
+                            style: TextStyle(
+                              fontFamily: "Nunito",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF000000),
+                              height: 1.5,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -91,11 +108,24 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "지금 시작하기",
-                                style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                                style:TextStyle(
+                                  fontFamily: "Pretendard",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF000000),
+                                  height: 1.5,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                               Text(
                                 "모임 일정 생성 및 수정",
-                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 11),
+                                style: TextStyle(
+                                  fontFamily: "Pretendard",
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF5C5C5C),
+                                  height: 1.5,
+                                ),
                                 textAlign: TextAlign.center,
                               )
                             ],
