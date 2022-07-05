@@ -18,22 +18,20 @@ class MeetbleStyle {
       textTheme: TextTheme(
         /// Start Screen Text
         headlineLarge: TextStyle(
-            fontFamily: "Nunito",
+            fontFamily: "Inter",
             fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w900,
-            fontSize: 32,
+            fontWeight: FontWeight.w700,
+            fontSize: 23,
             color: Color(0xFF000000),
             overflow: TextOverflow.ellipsis,
         ),
-        /// Text Button
-        /// ex) '서비스 문의하기'
-        headlineSmall: TextStyle(
-            fontFamily: "Nunito",
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w400,
-            fontSize: 10,
-            color: Color(0xFF5C5C5C),
-            overflow: TextOverflow.ellipsis,
+        bodyText1: TextStyle(
+          fontFamily: "Inter",
+          fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          color: Color(0xFF000000),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

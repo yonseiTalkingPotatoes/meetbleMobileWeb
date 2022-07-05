@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'create_screens/create_screen00.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("HomeScreen");
     return Scaffold(
       body: Container(
         color: Theme.of(context).backgroundColor,
@@ -134,7 +137,11 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.push(
+                        context,MaterialPageRoute(builder: (context) => CreateScreen00())
+                      );
+                    },
                   ),
                 ),
                 Container(height: 31,),
