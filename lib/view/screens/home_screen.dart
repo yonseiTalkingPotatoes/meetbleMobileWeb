@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     print("HomeScreen");
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Container(
         color: Theme.of(context).backgroundColor,
         padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -148,7 +149,12 @@ class HomeScreen extends StatelessWidget {
                 InkWell(
                   child: Text(
                     "서비스 문의하기",
-                    style: Theme.of(context).textTheme.headlineSmall!,
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF5C5C5C)
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   onTap: (){},

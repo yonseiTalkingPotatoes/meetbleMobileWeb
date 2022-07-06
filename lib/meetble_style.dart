@@ -11,6 +11,7 @@ class MeetbleStyle {
     // Design based on 375 X 667 : Iphone 8
     _meetbleThemeData = ThemeData(
       fontFamily: 'Nunito',
+      primaryColor: Color(0xFFF7CA59),
       backgroundColor: Color(0xFFFFFFFF),
       splashColor: Color(0xFFF7CA59),
       scaffoldBackgroundColor: Color(0xFFF7CA59),

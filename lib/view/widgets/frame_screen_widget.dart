@@ -13,30 +13,7 @@ class FrameScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     print("_FrameScreenWidgetState");
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        toolbarHeight: 48,
-        centerTitle: true,
-        leading: IconButton(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          icon: Icon(
-            Icons.chevron_left,
-            color: Color(0xFF000000),
-            size: 24,
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-        title: Image.asset(
-          "images/logo.png",
-          height: 24,
-          fit: BoxFit.contain,
-        ),
-        elevation: 0,
-      ),
+      resizeToAvoidBottomInset : false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,6 +40,7 @@ class FrameScreenWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
+                      //padding: EdgeInsets.only(bottom: 30),
                       color: Theme.of(context).backgroundColor,
                       child: mainWidget
                   ),
