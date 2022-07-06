@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:meetble/view_model/create_screens_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/frame_screen_widget.dart';
+import '../../widgets/notification_dialog_widget.dart';
 import 'create_screen01.dart';
 
 
@@ -51,7 +53,7 @@ class _CreateScreen00State extends State<CreateScreen00> {
                   child: Consumer<CreateScreensViewModel>(
                     builder: (context, _createScreenViewModel, child) => TextFormField(
                       autovalidateMode: AutovalidateMode.always,
-                      controller: TextEditingController.fromValue(TextEditingValue(text: _createScreensViewModel.createInfo.meetingName??"")),
+                      controller: TextEditingController.fromValue(TextEditingValue(text: _createScreensViewModel.createInfo.meetingName??"", selection: TextSelection.collapsed(offset: (_createScreensViewModel.createInfo.meetingName??"").length))),
                       style: Theme.of(context).textTheme.bodyText1,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -78,96 +80,94 @@ class _CreateScreen00State extends State<CreateScreen00> {
                       style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 15)
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        await Provider.of<CreateScreensViewModel>(context, listen: false).increaseNum();
-                      },
-                      child: Icon(Icons.add, size: 16, color: Color(0xFF000000),),
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        primary: Color(0xFFD9D9D9),
-                        onPrimary: Color(0xFFD9D9D9),
-                        fixedSize: Size.square(26)
-                      ),
-                    ),
-                    Container(
-                      height: 47,
-                      width: 96,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color(0xFF000000),
-                          width: 0.7
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: IntrinsicWidth(
-                        child: Consumer<CreateScreensViewModel>(
-                          builder: (context, _createScreensViewModel, child) => TextFormField(
-                            controller: TextEditingController.fromValue(TextEditingValue(text: _createScreensViewModel.createInfo.numberPeople.toString())),
-                            autovalidateMode: AutovalidateMode.always,
-                            style: TextStyle(
-                                fontFamily: "Inter",
-                                color: Color(0xFF000000),
-                                fontSize: 33,
-                                fontWeight: FontWeight.w700
+                StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState){
+                      print("NumberPicker");
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() async {
+                                await Provider.of<CreateScreensViewModel>(context, listen: false).increaseNum();
+                              });
+                            },
+                            child: Icon(Icons.add, size: 16, color: Color(0xFF000000),),
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                primary: Color(0xFFD9D9D9),
+                                onPrimary: Color(0xFFD9D9D9),
+                                fixedSize: Size.square(26)
                             ),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                suffixText: '명',
-                                suffixStyle: TextStyle(
+                          ),
+                          Container(
+                            height: 47,
+                            width: 96,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color(0xFF000000),
+                                  width: 0.7
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: IntrinsicWidth(
+                              child: TextFormField(
+                                controller: TextEditingController.fromValue(TextEditingValue(text: Provider.of<CreateScreensViewModel>(context).createInfo.numberPeople.toString(), selection: TextSelection.collapsed(offset: Provider.of<CreateScreensViewModel>(context).createInfo.numberPeople.toString().length))),
+                                autovalidateMode: AutovalidateMode.always,
+                                style: TextStyle(
                                     fontFamily: "Inter",
                                     color: Color(0xFF000000),
-                                    fontSize: 16,
+                                    fontSize: 33,
                                     fontWeight: FontWeight.w700
                                 ),
-                                contentPadding: EdgeInsets.zero
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    suffixText: '명',
+                                    suffixStyle: TextStyle(
+                                        fontFamily: "Inter",
+                                        color: Color(0xFF000000),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                    contentPadding: EdgeInsets.zero
+                                ),
+                                textAlign: TextAlign.end,
+                                maxLines: 1,
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  Provider.of<CreateScreensViewModel>(context).checkNumberPeople(value??"");
+                                },
+                              ),
                             ),
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            keyboardType: TextInputType.number,
-                            onFieldSubmitted: (value) {
-                              _formKey.currentState!.save();
-                            },
-                            validator: (value) {
-                              _createScreensViewModel.checkNumberPeople(value??"");
-                              if(!_createScreensViewModel.inputOk){
-                                print(_createScreensViewModel.inputErrorMessage!);
-                              }
-                            },
                           ),
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await Provider.of<CreateScreensViewModel>(context,listen: false).decreaseNum();
-                      },
-                      child: Icon(Icons.remove, size: 16, color: Color(0xFF000000),),
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          primary: Color(0xFFD9D9D9),
-                          onPrimary: Color(0xFFD9D9D9),
-                          fixedSize: Size.square(26)
-                      ),
-                    ),
-                  ],
-                )
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() async {
+                                await Provider.of<CreateScreensViewModel>(context, listen: false).decreaseNum();
+                              });
+                            },
+                            child: Icon(Icons.remove, size: 16, color: Color(0xFF000000),),
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                primary: Color(0xFFD9D9D9),
+                                onPrimary: Color(0xFFD9D9D9),
+                                fixedSize: Size.square(26)
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                ),
               ],
             ),
           ),
           index: 0,
           onTapNext: () async {
             FocusScope.of(context).unfocus();
-            await Provider.of<CreateScreensViewModel>(context,listen: false).checkInputOk();
-            //await _createScreensViewModel.checkInputOk();
+            await Provider.of<CreateScreensViewModel>(context,listen: false).checkFirstScreenInputOk();
             Provider.of<CreateScreensViewModel>(context,listen: false).inputOk ?
-            //_createScreensViewModel.inputOk ?
-            //_userInfoViewModel.isUsernameOk ?
             {
               Navigator.push(context, MaterialPageRoute(builder: (context) => CreateScreen01()))
             }
@@ -175,57 +175,7 @@ class _CreateScreen00State extends State<CreateScreen00> {
             showDialog(
                 context: context,
                 builder: (context){
-                  return SimpleDialog(
-                    alignment: Alignment.center,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Center(
-                      child: Text(
-                        "입력이 올바르지 않습니다",
-                        style: TextStyle(
-                            fontFamily: "Inter",
-                            color: Color(0xFF000000),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700
-                        ),
-                      ),
-                    ),
-                    children: <Widget>[
-                      Center(
-                        child: Text(
-                          Provider.of<CreateScreensViewModel>(context, listen: false).inputErrorMessage!,
-                          //_createScreensViewModel.inputErrorMessage!,
-                          style: TextStyle(
-                              fontFamily: "Inter",
-                              color: Color(0xFF000000),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: Center(
-                          child: IntrinsicWidth(
-                            child: Text(
-                              "확인",
-                              style: TextStyle(
-                                  fontFamily: "Inter",
-                                  color: Color(0xFF000000),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  );
+                  return NotificationDialogWidget(inputErrorMessage: Provider.of<CreateScreensViewModel>(context).inputErrorMessage!,);
                 }
             );
           },

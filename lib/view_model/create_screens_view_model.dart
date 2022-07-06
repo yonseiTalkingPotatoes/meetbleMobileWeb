@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:meetble/data/model/create_model.dart';
 
 class CreateScreensViewModel extends ChangeNotifier {
+  final int _MAX_PEOPLE = 20;
+  final int _MIN_PEOPLE = 2;
   CreateModel _createModel = CreateModel(numberPeople: 2);
   String? _resultMessage;
   String? _inputErrorMessage;
   String? _resultState;
   bool _resultSuccess = false;
   bool _inputOk = false;
-  String? _input;
 
   CreateModel get createInfo => _createModel;
   bool get resultSuccess => _resultSuccess;
@@ -17,7 +18,7 @@ class CreateScreensViewModel extends ChangeNotifier {
   String? get inputErrorMessage => _inputErrorMessage;
   bool get inputOk => _inputOk;
 
-  Future<void> checkInputOk() async {
+  Future<void> checkFirstScreenInputOk() async {
     await checkMeetingName(_createModel.meetingName??"");
     inputOk ? checkNumberPeople(_createModel.numberPeople.toString()) : null;
     notifyListeners();
@@ -29,6 +30,7 @@ class CreateScreensViewModel extends ChangeNotifier {
 
   Future<void> checkMeetingName(String meetingName) async {
     if(meetingName.isEmpty) {
+      _createModel.meetingName = meetingName;
       _inputErrorMessage = '모임 제목을 입력해주세요';
       _inputOk = false;
     }
@@ -49,12 +51,14 @@ class CreateScreensViewModel extends ChangeNotifier {
       _inputErrorMessage = '숫자로만 입력해주세요';
       _inputOk = false;
     }
-    else if(int.parse(numberPeople) < 2) {
-      _inputErrorMessage = '최소 인원은 2명입니다';
+    else if(int.parse(numberPeople) < _MIN_PEOPLE) {
+      _createModel.numberPeople = _MIN_PEOPLE;
+      _inputErrorMessage = '최소 인원은 ${_MIN_PEOPLE}명입니다';
       _inputOk = false;
     }
-    else if(int.parse(numberPeople) > 999) {
-      _inputErrorMessage = '최대 인원은 999명입니다';
+    else if(int.parse(numberPeople) > _MAX_PEOPLE) {
+      _createModel.numberPeople = _MAX_PEOPLE;
+      _inputErrorMessage = '최대 인원은 ${_MAX_PEOPLE}명입니다';
       _inputOk = false;
     }
     else{
@@ -66,14 +70,14 @@ class CreateScreensViewModel extends ChangeNotifier {
   }
 
   increaseNum(){
-    if(_createModel.numberPeople! < 999){
+    if(_createModel.numberPeople! < _MAX_PEOPLE){
       _createModel.numberPeople = _createModel.numberPeople! + 1;
       notifyListeners();
     }
   }
 
   decreaseNum() {
-    if(_createModel.numberPeople! > 2) {
+    if(_createModel.numberPeople! > _MIN_PEOPLE) {
       _createModel.numberPeople = _createModel.numberPeople! - 1;
       notifyListeners();
     }
