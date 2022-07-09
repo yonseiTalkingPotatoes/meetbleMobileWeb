@@ -1,15 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:meetble/data/model/create_model.dart';
+import 'package:meetble/data/model/date_range_model.dart';
 
 class CreateScreensViewModel extends ChangeNotifier {
   final int _MAX_PEOPLE = 20;
   final int _MIN_PEOPLE = 2;
-  CreateModel _createModel = CreateModel(numberPeople: 2);
+  CreateModel _createModel = CreateModel(
+    meetingName: null,
+    numberPeople: 2,
+    possibleDates: [],
+  );
+  List<DateRangeModel> _dateRanges = [
+    DateRangeModel(
+        rangeName: "이번주",
+        start: DateTime.now(),
+        days: 8 - DateTime.now().weekday
+    ),
+    DateRangeModel(
+        rangeName: "다음주",
+        start: DateTime.now().add(Duration(days: 8-DateTime.now().weekday)),
+        days: 7
+    ),
+    DateRangeModel(
+        rangeName: "다다음주",
+        start: DateTime.now().add(Duration(days: 15-DateTime.now().weekday)),
+        days: 7
+    ),
+    DateRangeModel(
+        rangeName: "이번주말",
+        start: DateTime.now().add(Duration(days: DateTime.now().weekday == 7 ? 0 : 6-DateTime.now().weekday)),
+        days: DateTime.now().weekday == 7 ? 1 : 2
+    ),
+    DateRangeModel(
+      rangeName: "이번달",
+      start: DateTime.now(),
+      days: (DateTime.now().month == 12 ? DateTime(DateTime.now().year + 1, 1, 0).day : DateTime(DateTime.now().year, DateTime.now().month + 1, 0).day) - DateTime.now().day + 1,
+    ),
+  ];
+
   String? _resultMessage;
   String? _inputErrorMessage;
   String? _resultState;
   bool _resultSuccess = false;
   bool _inputOk = false;
+  List<DateTime> _events = [
+  DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+
+  ];
+
+  DateTime _selectedDate = DateTime.now();
 
   CreateModel get createInfo => _createModel;
   bool get resultSuccess => _resultSuccess;
@@ -17,11 +56,30 @@ class CreateScreensViewModel extends ChangeNotifier {
   String? get resultState => _resultState;
   String? get inputErrorMessage => _inputErrorMessage;
   bool get inputOk => _inputOk;
+  DateTime get selectedDate => _selectedDate;
+  List<DateTime> get events => _events;
+  List<DateRangeModel> get dateRanges => _dateRanges;
 
   Future<void> checkFirstScreenInputOk() async {
     await checkMeetingName(_createModel.meetingName??"");
     inputOk ? checkNumberPeople(_createModel.numberPeople.toString()) : null;
     notifyListeners();
+  }
+
+  Future<void> checkSecondScreenInputOk() async {
+    if(_createModel.possibleDates!.isEmpty){
+      _inputErrorMessage = '날짜 구간을 선택해주세요';
+      _inputOk = false;
+    }
+    else {
+      _inputErrorMessage = null;
+      _inputOk = true;
+    }
+    notifyListeners();
+  }
+
+  DateTime normalizeDate(DateTime date) {
+    return DateTime.utc(date.year, date.month, date.day);
   }
 
   cancelInput() {
@@ -81,5 +139,27 @@ class CreateScreensViewModel extends ChangeNotifier {
       _createModel.numberPeople = _createModel.numberPeople! - 1;
       notifyListeners();
     }
+  }
+
+  isSelectedDate(DateTime dateTime) {
+    return _createModel.possibleDates!.contains(dateTime);
+  }
+
+  toggleDateState(DateTime dateTime) {
+    _selectedDate = dateTime;
+    if(!_createModel.possibleDates!.contains(dateTime)){
+      _createModel.possibleDates!.add(dateTime);
+      print("add ${dateTime}");
+    }
+    else {
+      _createModel.possibleDates!.removeAt(_createModel.possibleDates!.indexOf(dateTime));
+      print("remove ${dateTime}");
+    }
+    notifyListeners();
+  }
+
+  resetPossibleDates(){
+    _createModel.possibleDates = [];
+    notifyListeners();
   }
 }
