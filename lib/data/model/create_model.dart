@@ -1,14 +1,14 @@
 class CreateModel {
-  String? meetingName;
-  int? numberPeople;
-  List<DateTime>? possibleDates;
-  List<int>? timeRange;
+  String meetingName;
+  int numberPeople;
+  List<DateTime> possibleDates;
+  List<int> timeRange;
 
   CreateModel({
-    this.meetingName,
-    this.numberPeople,
-    this.possibleDates,
-    this.timeRange,
+    required this.meetingName,
+    required this.numberPeople,
+    required this.possibleDates,
+    required this.timeRange,
   });
 
   factory CreateModel.fromJson(Map<String, dynamic> json) => CreateModel(

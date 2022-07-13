@@ -21,7 +21,6 @@ class _CreateScreen00State extends State<CreateScreen00> {
   @override
   Widget build(BuildContext context) {
     _createScreensViewModel = Provider.of<CreateScreensViewModel>(context, listen: false);
-    final _formKey = GlobalKey<FormState>();
 
     print("CreateScreen00");
     return GestureDetector(
@@ -53,7 +52,7 @@ class _CreateScreen00State extends State<CreateScreen00> {
                   child: Consumer<CreateScreensViewModel>(
                     builder: (context, _createScreenViewModel, child) => TextFormField(
                       autovalidateMode: AutovalidateMode.always,
-                      controller: TextEditingController.fromValue(TextEditingValue(text: _createScreensViewModel.createInfo.meetingName??"", selection: TextSelection.collapsed(offset: (_createScreensViewModel.createInfo.meetingName??"").length))),
+                      controller: TextEditingController.fromValue(TextEditingValue(text: _createScreensViewModel.createInfo.meetingName, selection: TextSelection.collapsed(offset: (_createScreensViewModel.createInfo.meetingName).length))),
                       style: Theme.of(context).textTheme.bodyText1,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

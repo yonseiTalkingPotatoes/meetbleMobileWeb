@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meetble/data/model/date_range_model.dart';
-import 'package:meetble/view/widgets/table_calander_widget/customization/calendar_builders.dart';
 import 'package:meetble/view/widgets/table_calander_widget/customization/header_style.dart';
 import 'package:meetble/view_model/create_screens_view_model.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +64,7 @@ class CreateScreen01 extends StatelessWidget {
               firstDay: DateTime.now(),
               lastDay: DateTime.utc(2030, 12, 31),
               dayHitTestBehavior: HitTestBehavior.translucent,
-              selectedDayPredicate: (dateTime) => Provider.of<CreateScreensViewModel>(context, listen: false).createInfo.possibleDates!.contains(dateTime),
+              selectedDayPredicate: (dateTime) => Provider.of<CreateScreensViewModel>(context, listen: false).createInfo.possibleDates.contains(dateTime),
               rangeSelectionMode: RangeSelectionMode.toggledOn,
               focusedDay: Provider.of<CreateScreensViewModel>(context).selectedDate,
               rowHeight: 36,
