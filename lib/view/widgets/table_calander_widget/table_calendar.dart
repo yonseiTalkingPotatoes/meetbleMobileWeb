@@ -91,6 +91,9 @@ class TableCalendar<T> extends StatefulWidget {
   /// Determines the visibility of calendar header.
   final bool headerVisible;
 
+  /// Determines the visibility of short cut buttons.
+  final bool shortCutButtonVisible;
+
   /// Determines the visibility of the row of days of the week.
   final bool daysOfWeekVisible;
 
@@ -266,7 +269,7 @@ class TableCalendar<T> extends StatefulWidget {
     this.onPageChanged,
     this.onFormatChanged,
     this.onCalendarCreated,
-    required this.shortCutDate,
+    required this.shortCutDate, required this.shortCutButtonVisible,
   })  : assert(availableCalendarFormats.keys.contains(calendarFormat)),
         assert(availableCalendarFormats.length <= CalendarFormat.values.length),
         assert(weekendDays.isNotEmpty
@@ -494,7 +497,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               );
             },
           ),
-        Container(
+        if(widget.shortCutButtonVisible)
+          Container(
           padding: EdgeInsets.only(top: 14, bottom: 25),
           height: 61,
           child: ListView.builder(

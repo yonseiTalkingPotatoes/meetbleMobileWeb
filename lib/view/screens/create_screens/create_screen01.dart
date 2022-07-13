@@ -38,12 +38,13 @@ class CreateScreen01 extends StatelessWidget {
         ),
       ),
       mainWidget: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: StatefulBuilder(
           builder: (context, setState) {
             return TableCalendar(
               //locale: Localizations.localeOf(context).languageCode,
               locale: 'ko_KR',
+              shortCutButtonVisible: true,
               headerStyle: HeaderStyle(
                 titleCentered: true,
                 titleTextStyle: TextStyle(

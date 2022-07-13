@@ -80,7 +80,7 @@ class FrameScreenWidget extends StatelessWidget {
                             height: 37,
                             decoration: BoxDecoration(
                                 color: Theme.of(context).scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.all(Radius.circular(32)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 border: Border.all(
                                     color: Color(0xFF000000),
                                     width: 1
