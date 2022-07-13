@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:meetble/data/model/create_model.dart';
 import 'package:meetble/data/model/date_range_model.dart';
+import 'package:meetble/data/model/time_range_model.dart';
 
 class CreateScreensViewModel extends ChangeNotifier {
   final int _MAX_PEOPLE = 20;
   final int _MIN_PEOPLE = 2;
   CreateModel _createModel = CreateModel(
-    meetingName: null,
+    meetingName: "",
     numberPeople: 2,
     possibleDates: [],
+    timeRange: [],
   );
   List<DateRangeModel> _dateRanges = [
     DateRangeModel(
@@ -38,17 +40,52 @@ class CreateScreensViewModel extends ChangeNotifier {
     ),
   ];
 
+  List<TimeRangeModel> _timeRange = [
+    TimeRangeModel(
+      rangeName: '전체',
+      start: 0,
+      duration: 24,
+    ),
+    TimeRangeModel(
+      rangeName: '오전',
+      start: 9,
+      duration: 2,
+    ),
+    TimeRangeModel(
+      rangeName: '점심',
+      start: 11,
+      duration: 3,
+    ),
+    TimeRangeModel(
+      rangeName: '오후',
+      start: 14,
+      duration: 3,
+    ),
+    TimeRangeModel(
+      rangeName: '저녁',
+      start: 17,
+      duration: 3,
+    ),
+    TimeRangeModel(
+      rangeName: '밤',
+      start: 20,
+      duration: 4,
+    ),
+  ];
+
+  List<DateTime> _events = [
+    DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+  ];
+
   String? _resultMessage;
   String? _inputErrorMessage;
   String? _resultState;
   bool _resultSuccess = false;
   bool _inputOk = false;
-  List<DateTime> _events = [
-  DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)
 
-  ];
 
   DateTime _selectedDate = DateTime.now();
+  int _selectedTime = 0;
 
   CreateModel get createInfo => _createModel;
   bool get resultSuccess => _resultSuccess;
@@ -57,18 +94,32 @@ class CreateScreensViewModel extends ChangeNotifier {
   String? get inputErrorMessage => _inputErrorMessage;
   bool get inputOk => _inputOk;
   DateTime get selectedDate => _selectedDate;
+  int get selectedTime => _selectedTime;
   List<DateTime> get events => _events;
   List<DateRangeModel> get dateRanges => _dateRanges;
+  List<TimeRangeModel> get timeRange => _timeRange;
 
   Future<void> checkFirstScreenInputOk() async {
-    await checkMeetingName(_createModel.meetingName??"");
+    await checkMeetingName(_createModel.meetingName);
     inputOk ? checkNumberPeople(_createModel.numberPeople.toString()) : null;
     notifyListeners();
   }
 
   Future<void> checkSecondScreenInputOk() async {
-    if(_createModel.possibleDates!.isEmpty){
-      _inputErrorMessage = '날짜 구간을 선택해주세요';
+    if(_createModel.possibleDates.isEmpty){
+      _inputErrorMessage = '날짜 구간을 설정해주세요';
+      _inputOk = false;
+    }
+    else {
+      _inputErrorMessage = null;
+      _inputOk = true;
+    }
+    notifyListeners();
+  }
+
+  Future<void> checkThirdScreenInputOk() async {
+    if(_createModel.timeRange.isEmpty){
+      _inputErrorMessage = '시간대를 설정해주세요';
       _inputOk = false;
     }
     else {
@@ -128,38 +179,57 @@ class CreateScreensViewModel extends ChangeNotifier {
   }
 
   increaseNum(){
-    if(_createModel.numberPeople! < _MAX_PEOPLE){
-      _createModel.numberPeople = _createModel.numberPeople! + 1;
+    if(_createModel.numberPeople < _MAX_PEOPLE){
+      _createModel.numberPeople = _createModel.numberPeople + 1;
       notifyListeners();
     }
   }
 
   decreaseNum() {
-    if(_createModel.numberPeople! > _MIN_PEOPLE) {
-      _createModel.numberPeople = _createModel.numberPeople! - 1;
+    if(_createModel.numberPeople > _MIN_PEOPLE) {
+      _createModel.numberPeople = _createModel.numberPeople - 1;
       notifyListeners();
     }
   }
 
   isSelectedDate(DateTime dateTime) {
-    return _createModel.possibleDates!.contains(dateTime);
+    return _createModel.possibleDates.contains(dateTime);
   }
 
   toggleDateState(DateTime dateTime) {
     _selectedDate = dateTime;
-    if(!_createModel.possibleDates!.contains(dateTime)){
-      _createModel.possibleDates!.add(dateTime);
-      print("add ${dateTime}");
+    if(!_createModel.possibleDates.contains(_selectedDate)){
+      _createModel.possibleDates.add(_selectedDate);
+      print("add ${_selectedDate}");
     }
     else {
-      _createModel.possibleDates!.removeAt(_createModel.possibleDates!.indexOf(dateTime));
-      print("remove ${dateTime}");
+      _createModel.possibleDates.removeAt(_createModel.possibleDates.indexOf(_selectedDate));
+      print("remove ${_selectedDate}");
     }
     notifyListeners();
   }
 
   resetPossibleDates(){
     _createModel.possibleDates = [];
+    notifyListeners();
+  }
+
+  toggleTimeState(int time) {
+    _selectedTime = time;
+    if(!_createModel.timeRange.contains(_selectedTime)){
+      _createModel.timeRange.add(_selectedTime);
+      print("add ${_selectedTime}시");
+    }
+    else {
+      print("엥");
+      _createModel.timeRange.removeAt(_createModel.timeRange.indexOf(_selectedTime));
+      print("remove ${_selectedTime}시");
+    }
+    notifyListeners();
+  }
+
+  resetPossibleTimes(){
+    _createModel.timeRange = [];
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meetble/view/screens/create_screens/create_screen00.dart';
 import 'package:meetble/view/screens/create_screens/create_screen01.dart';
+import 'package:meetble/view/screens/create_screens/create_screen02.dart';
 import 'package:meetble/view/screens/home_screen.dart';
 import 'package:meetble/view_model/create_screens_view_model.dart';
 import 'package:provider/provider.dart';
@@ -39,8 +40,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Meetble',
           theme: MeetbleStyle(MediaQueryData()).meetbleThemeData,
-          home: HomeScreen(),
-          //home: CreateScreen01(),
+          //home: HomeScreen(),
+          home: CreateScreen02(),
         )
     );
   }
