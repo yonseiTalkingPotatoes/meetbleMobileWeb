@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meetble/view/widgets/time_picker_widget/painter/arc_clipper.dart';
 
+import '../../../data/model/user_schedule_model.dart';
+import '../../../meetble_style.dart';
+
 class ArcButton extends StatelessWidget {
   final bool isSelected;
+  final List<TimeStatusModel>? timeStatusList;
   final int time;
   final Color selectedColor;
   final Color defaultColor;
@@ -14,6 +18,7 @@ class ArcButton extends StatelessWidget {
   const ArcButton({
     Key? key,
     required this.isSelected,
+    this.timeStatusList,
     required this.time,
     this.defaultColor = const Color(0xFFF1F1F1),
     this.selectedColor = const Color(0xFF9ACBF8),
@@ -35,7 +40,11 @@ class ArcButton extends StatelessWidget {
           onTap: onTap,
           child: Container(
             decoration: BoxDecoration(
-                color: isSelected ? selectedColor : defaultColor,
+                color: ! isSelected ?
+                defaultColor
+                    :
+                timeStatusList == null ?
+                    selectedColor : STATUS_COLOR[timeStatusList!.firstWhere((timeStatus) => timeStatus.time == time).statusCode],
             ),
           )
       ),

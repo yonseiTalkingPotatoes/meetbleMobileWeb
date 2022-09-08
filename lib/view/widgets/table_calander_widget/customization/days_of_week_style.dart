@@ -29,8 +29,26 @@ class DaysOfWeekStyle {
   /// Creates a `DaysOfWeekStyle` used by `TableCalendar` widget.
   const DaysOfWeekStyle({
     this.dowTextFormatter,
-    this.decoration = const BoxDecoration(),
-    this.weekdayStyle = const TextStyle(color: const Color(0xFF4F4F4F)),
-    this.weekendStyle = const TextStyle(color: const Color(0xFF6A6A6A)),
+    this.decoration = const BoxDecoration(
+      color: Color.fromRGBO(0, 0, 0, 0.1),
+      border: Border(
+          bottom: BorderSide(
+              color: Color(0xFF000000),
+              width: 0.7
+          )
+      ),
+    ),
+    this.weekdayStyle = const TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 11,
+      fontWeight: FontWeight.w700,
+      color: Color(0xFF000000),
+    ),
+    this.weekendStyle = const TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 11,
+      fontWeight: FontWeight.w700,
+      color: Color(0xFF000000),
+    ),
   });
 }

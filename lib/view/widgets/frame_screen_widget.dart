@@ -26,6 +26,7 @@ class FrameScreenWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
+              padding: EdgeInsets.only(left: 16 * MediaQuery.of(context).size.width / 320, right: 16 * MediaQuery.of(context).size.width / 320, top: 34),
               height: 436,
               decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
@@ -34,18 +35,23 @@ class FrameScreenWidget extends StatelessWidget {
                     topRight: Radius.circular(20),
                   )
               ),
-              padding: EdgeInsets.only(top: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                      //padding: EdgeInsets.only(bottom: 30),
-                      color: Theme.of(context).backgroundColor,
-                      child: mainWidget
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                          //padding: EdgeInsets.only(bottom: 30),
+                          color: Theme.of(context).backgroundColor,
+                          child: mainWidget
+                      ),
+                    ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    padding: EdgeInsets.only(bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,

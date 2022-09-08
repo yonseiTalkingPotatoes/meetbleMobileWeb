@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../fluro_router.dart';
 import 'create_screens/create_screen00.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,65 +22,66 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(
-                  "images/logo.png",
-                  height: 24,
-                  fit: BoxFit.contain,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 31),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 1),
-                        child: Text(
-                          "모임을 편안하게,",
-                          style: TextStyle(
-                            fontFamily: "Pretendard",
-                            fontSize: 21,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF000000),
-                            height: 1.5,
-                          ),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 1),
+                      child: Text(
+                        "모임을 편안하게,",
+                        style: TextStyle(
+                          fontFamily: "Pretendard",
+                          fontSize: 21,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF000000),
+                          height: 1.5,
                         ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6),
-                            child: Text(
-                              "밋블",
-                              style: TextStyle(
-                                fontFamily: "Pretendard",
-                                fontSize: 32,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF000000),
-                                height: 1.5,
-                              ),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Text(
-                            "Meetble",
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: Text(
+                            "밋블",
                             style: TextStyle(
-                              fontFamily: "Nunito",
-                              fontSize: 16,
+                              fontFamily: "Pretendard",
+                              fontSize: 32,
                               fontWeight: FontWeight.w900,
                               color: Color(0xFF000000),
                               height: 1.5,
                             ),
                             textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                        Text(
+                          "Meetble",
+                          style: TextStyle(
+                            fontFamily: "Nunito",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF000000),
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(top: 80, left: 50),
+                  child: Image.asset(
+                    "images/main_logo.png",
+                    height: 100,
+                    fit: BoxFit.fitHeight,
                   ),
                 )
               ],
@@ -88,8 +90,9 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
+                Container(
                   padding: EdgeInsets.symmetric(horizontal: 4),
+                  alignment: Alignment.centerRight,
                   child: InkWell(
                     child: Container(
                       height: 63,
@@ -139,9 +142,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     onTap: (){
-                      Navigator.push(
-                        context,MaterialPageRoute(builder: (context) => CreateScreen00())
-                      );
+                      FRouter.router.navigateTo(context, FRouter.create);
                     },
                   ),
                 ),
@@ -157,7 +158,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onTap: (){},
+                  onTap: (){
+                    FRouter.router.navigateTo(context, FRouter.meet.replaceAll(":id", "1"));
+                  },
                 )
               ],
             )

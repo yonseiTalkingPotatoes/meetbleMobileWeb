@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:meetble/view/widgets/time_picker_widget/time_picker_widget.dart';
 import 'package:meetble/view_model/create_screens_view_model.dart';
 import 'package:provider/provider.dart';
+import '../../../data/datasource/local_datasource.dart';
 import '../../widgets/frame_screen_widget.dart';
 import '../../widgets/notification_dialog_widget.dart';
-import '../../widgets/pie_timer_widget/pie_timer_widget.dart';
 import 'create_screen03.dart';
 
 
@@ -34,27 +34,24 @@ class CreateScreen02 extends StatelessWidget {
           ],
         ),
       ),
-      mainWidget: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: StatefulBuilder(
-          builder: (context, setState) {
-            return TimePickerWidget(
-              width: MediaQuery.of(context).size.width - 20,
-              shortCutTime: Provider.of<CreateScreensViewModel>(context).timeRange,
-              timeRange: Provider.of<CreateScreensViewModel>(context).createInfo.timeRange,
-              resetSelectedTime: () {
-                setState((){
-                  Provider.of<CreateScreensViewModel>(context, listen: false).resetPossibleTimes();
-                });
-              },
-              onTapTime: (int selectedTime) {
-                setState((){
-                  Provider.of<CreateScreensViewModel>(context, listen: false).toggleTimeState(selectedTime);
-                });
-              },
-            );
-          }
-        ),
+      mainWidget: StatefulBuilder(
+        builder: (context, setState) {
+          return TimePickerWidget(
+            width: 300,
+            shortCutTime: TIME_SHORTCUT_LIST,
+            timeRange: Provider.of<CreateScreensViewModel>(context).createInfo.possibleTimes,
+            resetSelectedTime: () {
+              setState((){
+                Provider.of<CreateScreensViewModel>(context, listen: false).resetPossibleTimes();
+              });
+            },
+            onTapTime: (int selectedTime) {
+              setState((){
+                Provider.of<CreateScreensViewModel>(context, listen: false).togglePossibleTimes(selectedTime);
+              });
+            },
+          );
+        }
       ),
       index: 2,
       onTapNext: () async {
@@ -62,13 +59,27 @@ class CreateScreen02 extends StatelessWidget {
         await Provider.of<CreateScreensViewModel>(context,listen: false).checkThirdScreenInputOk();
         Provider.of<CreateScreensViewModel>(context,listen: false).inputOk ?
         {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateScreen03()))
+          await Provider.of<CreateScreensViewModel>(context, listen: false).getMeetingId(),
+          Provider.of<CreateScreensViewModel>(context,listen: false).resultSuccess ?
+          {
+            Provider.of<CreateScreensViewModel>(context, listen: false).registerMeeting(),
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CreateScreen03()), (route) => false)
+          }
+              :
+          {
+            showDialog(
+                context: context,
+                builder: (context){
+                  return NotificationDialogWidget(inputErrorMessage: Provider.of<CreateScreensViewModel>(context).resultMessage!, title: "입력이 올바르지 않습니다",);
+                }
+            ),
+          }
         }
             :
         showDialog(
             context: context,
             builder: (context){
-              return NotificationDialogWidget(inputErrorMessage: Provider.of<CreateScreensViewModel>(context).inputErrorMessage!,);
+              return NotificationDialogWidget(inputErrorMessage: Provider.of<CreateScreensViewModel>(context).inputErrorMessage!, title: "입력이 올바르지 않습니다",);
             }
         );
       },

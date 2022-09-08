@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NotificationDialogWidget extends StatelessWidget {
+  final String title;
   final String inputErrorMessage;
-  const NotificationDialogWidget({Key? key, required this.inputErrorMessage}) : super(key: key);
+  const NotificationDialogWidget({Key? key, required this.inputErrorMessage, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,27 +14,16 @@ class NotificationDialogWidget extends StatelessWidget {
       ),
       title: Center(
         child: Text(
-          "입력이 올바르지 않습니다",
+          title,
           style: TextStyle(
               fontFamily: "Inter",
               color: Color(0xFF000000),
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w700
           ),
         ),
       ),
       children: <Widget>[
-        Center(
-          child: Text(
-            inputErrorMessage,
-            style: TextStyle(
-                fontFamily: "Inter",
-                color: Color(0xFF000000),
-                fontSize: 13,
-                fontWeight: FontWeight.w500
-            ),
-          ),
-        ),
         InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -42,13 +32,25 @@ class NotificationDialogWidget extends StatelessWidget {
           },
           child: Center(
             child: IntrinsicWidth(
-              child: Text(
-                "확인",
-                style: TextStyle(
-                    fontFamily: "Inter",
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
                     color: Color(0xFF000000),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500
+                    width: 1
+                  )
+                ),
+                width: 170,
+                height: 30,
+                alignment: Alignment.center,
+                child: Text(
+                  "확인",
+                  style: TextStyle(
+                      fontFamily: "Inter",
+                      color: Color(0xFF000000),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500
+                  ),
                 ),
               ),
             ),

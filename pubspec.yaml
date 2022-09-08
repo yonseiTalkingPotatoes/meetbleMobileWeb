@@ -44,6 +44,8 @@ dependencies:
   dio: ^4.0.6
   intl: ^0.17.0
   simple_gesture_detector: ^0.2.0
+  fluro: ^2.0.3
+  url_strategy: ^0.2.0
   # pie_chart: ^5.3.2
   # table_calendar: ^3.0.6
   # table_calendar:
@@ -76,14 +78,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo.png
-    - assets/images/2.0x/logo.png
-    - assets/images/3.0x/logo.png
-    - assets/images/4.0x/logo.png
+    - assets/images/main_logo.png
     - assets/images/time.png
-    - assets/images/2.0x/time.png
-    - assets/images/3.0x/time.png
-    - assets/images/4.0x/time.png
+    - assets/images/jam_write.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

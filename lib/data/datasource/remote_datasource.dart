@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
@@ -9,7 +10,8 @@ const INVALID_FORMAT = 102;
 const UNKNOWN_ERROR = 103;
 
 /// API URL
-const MEETBLE = "https://0tijhj3s8l.execute-api.ap-northeast-2.amazonaws.com/A1/photly";
+const MEETBLE = "https://meetble.today";
+const MEETBLE_API = "https://meetble.azurewebsites.net/api";
 
 // Success to get response
 class Success {
@@ -30,12 +32,14 @@ class RemoteDataSource {
   final int timeout = 5;
 
   // Get data from API by inputData
-  Future<Object> getFromUri(String uri, Map<String, dynamic>? inputData) async {
+  Future<Object> getFromUri(String uri) async {
+    print(uri);
     try{
       final response = await Dio()
           .get(
           uri,
-          queryParameters: inputData).timeout(const Duration(seconds: 600))
+        queryParameters: {}
+      ).timeout(const Duration(seconds: 600))
           .catchError((e) {
         print(e.message);
       });
@@ -62,15 +66,21 @@ class RemoteDataSource {
 
   // Post inputData to database through API
   Future<Object> postToUri(String uri, Map<String, dynamic> inputData) async {
+    print("확인2");
+    print(uri);
+    print(inputData);
+    print(jsonEncode(inputData));
     try{
-      final response = await Dio()
-          .post(
+      Dio _dio = Dio();
+      final response = await _dio.post(
           uri,
-          data: inputData,
+          data: jsonEncode(inputData),
       ).timeout(const Duration(seconds: 600))
           .catchError((e) {
+        print("에러");
         print(e.message);
       });
+      print("성공");
       print(response);
 
       if(response.statusCode == OK) {
@@ -90,6 +100,7 @@ class RemoteDataSource {
   // Edit data in database into inputData through API
   Future<Object> putToUri(String uri, Map<String, dynamic> inputData) async {
     try{
+      print('put');
       final response = await Dio()
           .put(
         uri,

@@ -72,7 +72,7 @@ class TableCalendar<T> extends StatefulWidget {
   final CalendarFormat calendarFormat;
 
   /// List of short cut to set range of date
-  final List<DateRangeModel> shortCutDate;
+  final List<DateRangeModel>? shortCutDate;
 
   /// `Map` of `CalendarFormat`s and `String` names associated with them.
   /// Those `CalendarFormat`s will be used by internal logic to manage displayed format.
@@ -236,8 +236,8 @@ class TableCalendar<T> extends StatefulWidget {
     this.pageAnimationEnabled = true,
     this.sixWeekMonthsEnforced = false,
     this.shouldFillViewport = false,
-    this.rowHeight = 52.0,
-    this.daysOfWeekHeight = 16.0,
+    this.rowHeight = 36,
+    this.daysOfWeekHeight = 19,
     this.formatAnimationDuration = const Duration(milliseconds: 200),
     this.formatAnimationCurve = Curves.linear,
     this.pageAnimationDuration = const Duration(milliseconds: 300),
@@ -253,7 +253,7 @@ class TableCalendar<T> extends StatefulWidget {
     this.daysOfWeekStyle = const DaysOfWeekStyle(),
     this.calendarStyle = const CalendarStyle(),
     this.calendarBuilders = const CalendarBuilders(),
-    this.rangeSelectionMode = RangeSelectionMode.toggledOff,
+    this.rangeSelectionMode = RangeSelectionMode.disabled,
     this.eventLoader,
     this.enabledDayPredicate,
     this.selectedDayPredicate,
@@ -269,7 +269,8 @@ class TableCalendar<T> extends StatefulWidget {
     this.onPageChanged,
     this.onFormatChanged,
     this.onCalendarCreated,
-    required this.shortCutDate, required this.shortCutButtonVisible,
+    required this.shortCutButtonVisible,
+    this.shortCutDate,
   })  : assert(availableCalendarFormats.keys.contains(calendarFormat)),
         assert(availableCalendarFormats.length <= CalendarFormat.values.length),
         assert(weekendDays.isNotEmpty
@@ -471,51 +472,54 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
     return Column(
       children: [
         if (widget.headerVisible)
-          ValueListenableBuilder<DateTime>(
-            valueListenable: _focusedDay,
-            builder: (context, value, _) {
-              return CalendarHeader(
-                headerTitleBuilder: widget.calendarBuilders.headerTitleBuilder,
-                focusedMonth: value,
-                onLeftChevronTap: _onLeftChevronTap,
-                onRightChevronTap: _onRightChevronTap,
-                onHeaderTap: () => widget.onHeaderTapped?.call(value),
-                onHeaderLongPress: () =>
-                    widget.onHeaderLongPressed?.call(value),
-                headerStyle: widget.headerStyle,
-                availableCalendarFormats: widget.availableCalendarFormats,
-                calendarFormat: widget.calendarFormat,
-                locale: widget.locale,
-                onFormatButtonTap: (format) {
-                  assert(
+          Padding(
+            padding: EdgeInsets.only(bottom: 15),
+            child: ValueListenableBuilder<DateTime>(
+              valueListenable: _focusedDay,
+              builder: (context, value, _) {
+                return CalendarHeader(
+                  headerTitleBuilder: widget.calendarBuilders.headerTitleBuilder,
+                  focusedMonth: value,
+                  onLeftChevronTap: _onLeftChevronTap,
+                  onRightChevronTap: _onRightChevronTap,
+                  onHeaderTap: () => widget.onHeaderTapped?.call(value),
+                  onHeaderLongPress: () =>
+                      widget.onHeaderLongPressed?.call(value),
+                  headerStyle: widget.headerStyle,
+                  availableCalendarFormats: widget.availableCalendarFormats,
+                  calendarFormat: widget.calendarFormat,
+                  locale: widget.locale,
+                  onFormatButtonTap: (format) {
+                    assert(
                     widget.onFormatChanged != null,
                     'Using `FormatButton` without providing `onFormatChanged` will have no effect.',
-                  );
+                    );
 
-                  widget.onFormatChanged?.call(format);
-                },
-              );
-            },
+                    widget.onFormatChanged?.call(format);
+                  },
+                );
+              },
+            ),
           ),
         if(widget.shortCutButtonVisible)
           Container(
-          padding: EdgeInsets.only(top: 14, bottom: 25),
-          height: 61,
+          padding: EdgeInsets.only(bottom: 25),
+          height: 45,
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
             primary: false,
             scrollDirection: Axis.horizontal,
-            itemCount: widget.shortCutDate.length,
+            itemCount: widget.shortCutDate!.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.only(right: 9),
                 child: DateButton(
                     onTap: (){
-                      DateTime startDate = normalizeDate(widget.shortCutDate[index].start);
+                      DateTime startDate = normalizeDate(widget.shortCutDate![index].start);
                       setState((){
                         widget.onShortCutSelected?.call();
                         if(index != _selectedShortCutIndex){
-                          for(int i = 0; i < widget.shortCutDate[index].days; i++)  {
+                          for(int i = 0; i < widget.shortCutDate![index].days; i++)  {
                             widget.onDaySelected?.call(startDate.add(Duration(days: i)), _focusedDay.value);
                           }
                         }
@@ -523,7 +527,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
                       });
                     },
                     isSelected: index == _selectedShortCutIndex,
-                    buttonText: widget.shortCutDate[index].rangeName
+                    buttonText: widget.shortCutDate![index].rangeName
                 ),
               );
             },
@@ -650,7 +654,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
           children.add(rangeHighlight);
         }
 
-        final isToday = isSameDay(day, widget.currentDay);
+        final isToday = isSameDay(day, focusedDay);
         final isDisabled = _isDayDisabled(day);
         final isWeekend = _isWeekend(day, weekendDays: widget.weekendDays);
 

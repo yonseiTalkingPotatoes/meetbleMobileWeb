@@ -150,78 +150,141 @@ class CalendarStyle {
 
   /// Creates a `CalendarStyle` used by `TableCalendar` widget.
   const CalendarStyle({
-    this.isTodayHighlighted = true,
+    TextStyle activeCalendarTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 1)
+    ),
+    TextStyle defaultCalanderTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 0.3)
+    ),
+    this.isTodayHighlighted = false,
     this.canMarkersOverflow = true,
     this.outsideDaysVisible = true,
-    this.markersAutoAligned = true,
-    this.markerSize,
+    this.markersAutoAligned = false,
+    this.markerSize = 3,
     this.markerSizeScale = 0.2,
     this.markersAnchor = 0.7,
     this.rangeHighlightScale = 1.0,
     this.markerMargin = const EdgeInsets.symmetric(horizontal: 0.3),
     this.markersAlignment = Alignment.bottomCenter,
     this.markersMaxCount = 4,
-    this.cellMargin = const EdgeInsets.all(6.0),
+    this.cellMargin = const EdgeInsets.symmetric(vertical: 6),
     this.cellPadding = const EdgeInsets.all(0),
     this.cellAlignment = Alignment.center,
-    this.markersOffset = const PositionedOffset(),
+    this.markersOffset = const PositionedOffset(top: 8),
     this.rangeHighlightColor = const Color(0xFFBBDDFF),
     this.markerDecoration = const BoxDecoration(
-      color: const Color(0xFF263238),
-      shape: BoxShape.circle,
+        color: Color(0xFF000000),
+        shape: BoxShape.circle
     ),
     this.todayTextStyle = const TextStyle(
-      color: const Color(0xFFFAFAFA),
-      fontSize: 16.0,
-    ), //
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 1)
+    ),
     this.todayDecoration = const BoxDecoration(
-      color: const Color(0xFF9FA8DA),
+      color: Color(0xFF9FA8DA),
       shape: BoxShape.circle,
     ),
     this.selectedTextStyle = const TextStyle(
-      color: const Color(0xFFFAFAFA),
-      fontSize: 16.0,
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 1)
     ),
     this.selectedDecoration = const BoxDecoration(
-      color: const Color(0xFF5C6BC0),
+      color: Color(0xFF9ACBF8),
       shape: BoxShape.circle,
     ),
     this.rangeStartTextStyle = const TextStyle(
-      color: const Color(0xFFFAFAFA),
+      color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ),
     this.rangeStartDecoration = const BoxDecoration(
-      color: const Color(0xFF6699FF),
+      color: Color(0xFF6699FF),
       shape: BoxShape.circle,
     ),
     this.rangeEndTextStyle = const TextStyle(
-      color: const Color(0xFFFAFAFA),
+      color: Color(0xFFFAFAFA),
       fontSize: 16.0,
     ),
     this.rangeEndDecoration = const BoxDecoration(
-      color: const Color(0xFF6699FF),
+      color: Color(0xFF6699FF),
       shape: BoxShape.circle,
     ),
     this.withinRangeTextStyle = const TextStyle(),
     this.withinRangeDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.outsideTextStyle = const TextStyle(color: const Color(0xFFAEAEAE)),
+    this.outsideTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 0.3)
+    ),
     this.outsideDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.disabledTextStyle = const TextStyle(color: const Color(0xFFBFBFBF)),
+    this.disabledTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 0.3)
+    ),
     this.disabledDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.holidayTextStyle = const TextStyle(color: const Color(0xFF5C6BC0)),
+    this.holidayTextStyle = const TextStyle(color: Color(0xFF5C6BC0)),
     this.holidayDecoration = const BoxDecoration(
-      border: const Border.fromBorderSide(
-        const BorderSide(color: const Color(0xFF9FA8DA), width: 1.4),
+      border: Border.fromBorderSide(
+        BorderSide(color: Color(0xFF9FA8DA), width: 1.4),
       ),
       shape: BoxShape.circle,
     ),
-    this.weekendTextStyle = const TextStyle(color: const Color(0xFF5A5A5A)),
+    this.weekendTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 1)
+    ),
     this.weekendDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.defaultTextStyle = const TextStyle(),
+    this.defaultTextStyle = const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(0, 0, 0, 1)
+    ),
     this.defaultDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.rowDecoration = const BoxDecoration(),
+    this.rowDecoration = const BoxDecoration(
+        border: Border.symmetric(
+            horizontal: BorderSide(
+                width: 0.4,
+                color: Color.fromRGBO(0, 0, 0, 0.7)
+            )
+        )
+    ),
     this.tableBorder = const TableBorder(),
-    this.calendarDecoration = const BoxDecoration()
+    this.calendarDecoration = const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        border: Border(
+          top: BorderSide(
+              color: Color(0xFF000000),
+              width: 0.7
+          ),
+          bottom: BorderSide(
+              color: Color(0xFF000000),
+              width: 0.7
+          ),
+          left: BorderSide(
+              color: Color(0xFF000000),
+              width: 0.7
+          ),
+          right: BorderSide(
+              color: Color(0xFF000000),
+              width: 0.7
+          ),
+        )
+    )
   });
 }
 

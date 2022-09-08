@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meetble/data/model/user_schedule_model.dart';
 import 'package:meetble/view/widgets/time_picker_widget/painter/arc_painter.dart';
 import 'package:meetble/view/widgets/time_picker_widget/painter/background_painter.dart';
 import 'package:meetble/view/widgets/time_picker_widget/painter/horizontal_border_painter.dart';
@@ -15,6 +16,7 @@ class TimePickerWidget extends StatefulWidget {
   final List<TimeRangeModel>? shortCutTime;
   final Function? resetSelectedTime;
   final List<int> timeRange;
+  final List<TimeStatusModel>? timeStatusList;
 
   const TimePickerWidget({
     Key? key,
@@ -23,6 +25,7 @@ class TimePickerWidget extends StatefulWidget {
     this.shortCutTime,
     this.resetSelectedTime,
     required this.timeRange,
+    this.timeStatusList,
   }) : super(key: key);
 
   @override
@@ -47,7 +50,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        widget.shortCutTime!.isNotEmpty ?
+        widget.shortCutTime != null ?
         Container(
           padding: EdgeInsets.only(top: 14, bottom: 25),
           height: 61,
@@ -102,6 +105,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
                   ArcButton(
                     radius: widget.width / 2,
                     isSelected: widget.timeRange.contains(i),
+                    timeStatusList: widget.timeStatusList,
                     time: i,
                     startPoint: 2,
                     onTap: (){
@@ -144,9 +148,8 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
               Center(
                 child: CircleAvatar(
                   radius: widget.width /3,
-                  backgroundColor: Color(0xFFFFFFFF),
                   backgroundImage: AssetImage(
-                    "images/4.0x/time.png",
+                    "assets/images/time.png",
                   ),
                 ),
               )
