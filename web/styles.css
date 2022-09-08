@@ -1,0 +1,15 @@
+.centered {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.splash {
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}

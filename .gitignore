@@ -30,9 +30,13 @@
 .pub-cache/
 .pub/
 /build/
+.fvm/
 
 # Web related
 lib/generated_plugin_registrant.dart
+
+# Git related
+git-template.txt
 
 # Symbolication related
 app.*.symbols
