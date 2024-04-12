@@ -53,7 +53,6 @@ class MeetbleStyle {
       scaffoldBackgroundColor: const Color(0xFFF7CA59),
       brightness: Brightness.light,
       textTheme: const TextTheme(
-        /// Start Screen Text
         headlineLarge: TextStyle(
           fontFamily: "Inter",
           fontStyle: FontStyle.normal,
@@ -70,6 +69,9 @@ class MeetbleStyle {
           color: Color(0xFF000000),
           overflow: TextOverflow.ellipsis,
         ),
+      ),
+      colorScheme: const ColorScheme.light(
+        background: Colors.white,
       ),
     );
   }
