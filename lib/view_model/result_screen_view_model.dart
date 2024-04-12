@@ -18,7 +18,6 @@ class ResultScreenViewModel extends ChangeNotifier {
   int _countDates = 0;
   int _countTimes = 0;
 
-
   ResultInfoModel get resultInfoModel => _resultInfoModel!;
   String get meetingId => _meetingId;
   bool get resultSuccess => _resultSuccess;
@@ -38,13 +37,8 @@ class ResultScreenViewModel extends ChangeNotifier {
 
   Future<void> getResultInfo() async {
     var result = await _resultRepository.getResultInfo(_meetingId);
-    if(result is Success) {
-      print("완료1");
-      print(result.response);
+    if (result is Success) {
       _resultInfoModel = ResultInfoModel.fromJson(result.response);
-      print(_resultInfoModel!.dateTimes.first.dateTime);
-      print(_resultInfoModel!.dateTimes.first.impossiblePeople);
-      print("완료2");
       _firstDate = _resultInfoModel!.dateTimes.first.dateTime;
       _selectedDate = _firstDate;
       _lastDate = _resultInfoModel!.dateTimes.last.dateTime;
@@ -52,9 +46,7 @@ class ResultScreenViewModel extends ChangeNotifier {
       _countTimes = (_resultInfoModel!.dateTimes.length / _countDates).round();
       _resultSuccess = true;
       _resultMessage = null;
-    }
-    else if(result is Failure){
-      print("실패");
+    } else if (result is Failure) {
       _resultSuccess = false;
       _resultMessage = result.errorResponse;
     }

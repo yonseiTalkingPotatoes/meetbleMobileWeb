@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
 import '../../fluro_router.dart';
-import 'create_screens/create_screen00.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print("HomeScreen");
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Container(
-        color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        color: Theme.of(context).colorScheme.background,
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -22,12 +19,12 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Column(
+                const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 1),
+                      padding: EdgeInsets.only(bottom: 1),
                       child: Text(
                         "모임을 편안하게,",
                         style: TextStyle(
@@ -46,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 6),
+                          padding: EdgeInsets.only(right: 6),
                           child: Text(
                             "밋블",
                             style: TextStyle(
@@ -77,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 80, left: 50),
+                  padding: const EdgeInsets.only(top: 80, left: 50),
                   child: Image.asset(
                     "images/main_logo.png",
                     height: 100,
@@ -91,7 +88,7 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     child: Container(
@@ -100,12 +97,11 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 0.7,
-                            color: Color(0xFF000000),
+                            color: const Color(0xFF000000),
                           ),
-                          color: Theme.of(context).scaffoldBackgroundColor
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
+                          color: Theme.of(context).scaffoldBackgroundColor),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -115,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "지금 시작하기",
-                                style:TextStyle(
+                                style: TextStyle(
                                   fontFamily: "Pretendard",
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -141,25 +137,27 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    onTap: (){
+                    onTap: () {
                       FRouter.router.navigateTo(context, FRouter.create);
                     },
                   ),
                 ),
-                Container(height: 31,),
+                Container(
+                  height: 31,
+                ),
                 InkWell(
-                  child: Text(
+                  child: const Text(
                     "서비스 문의하기",
                     style: TextStyle(
-                      fontFamily: 'Pretendard',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF5C5C5C)
-                    ),
+                        fontFamily: 'Pretendard',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF5C5C5C)),
                     textAlign: TextAlign.center,
                   ),
-                  onTap: (){
-                    FRouter.router.navigateTo(context, FRouter.meet.replaceAll(":id", "1"));
+                  onTap: () {
+                    FRouter.router.navigateTo(
+                        context, FRouter.meet.replaceAll(":id", "1"));
                   },
                 )
               ],

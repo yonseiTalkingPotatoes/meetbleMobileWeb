@@ -13,25 +13,29 @@ class FRouter {
   static String result = '/result/:id';
 
   static void setupRouter() {
-    router.define(create, handler: createHandler, transitionType: TransitionType.none);
-    router.define(join, handler: joinHandler, transitionType: TransitionType.none);
-    router.define(result, handler: resultHandler, transitionType: TransitionType.none);
-    router.notFoundHandler = Handler(handlerFunc: (context, params) => ErrorScreen());
+    router.define(create,
+        handler: createHandler, transitionType: TransitionType.none);
+    router.define(join,
+        handler: joinHandler, transitionType: TransitionType.none);
+    router.define(result,
+        handler: resultHandler, transitionType: TransitionType.none);
+    router.notFoundHandler =
+        Handler(handlerFunc: (context, params) => const ErrorScreen());
   }
 
   static Handler createHandler = Handler(
-      handlerFunc: (context, params) => CreateScreen00(),
+    handlerFunc: (context, params) => CreateScreen00(),
   );
 
   static Handler joinHandler = Handler(
-      handlerFunc: (context, params) {
-        return JoinScreen00(meetingId: params['id']![0]);
-      },
+    handlerFunc: (context, params) {
+      return JoinScreen00(meetingId: params['id']![0]);
+    },
   );
 
   static Handler resultHandler = Handler(
-      handlerFunc: (context, params) {
-        return ResultScreen(meetingId: params['id']![0]);
-      },
+    handlerFunc: (context, params) {
+      return ResultScreen(meetingId: params['id']![0]);
+    },
   );
 }

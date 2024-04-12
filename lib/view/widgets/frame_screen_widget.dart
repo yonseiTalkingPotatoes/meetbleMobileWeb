@@ -7,34 +7,41 @@ class FrameScreenWidget extends StatelessWidget {
   final double index;
   final GestureTapCallback? onTapNext;
   final Widget? customBottomButton;
-  const FrameScreenWidget({Key? key, required this.topWidget, required this.mainWidget, required this.index, this.onTapNext, this.customBottomButton}) : super(key: key);
+  const FrameScreenWidget(
+      {Key? key,
+      required this.topWidget,
+      required this.mainWidget,
+      required this.index,
+      this.onTapNext,
+      this.customBottomButton})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print("_FrameScreenWidgetState");
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
               height: 78,
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.centerLeft,
-              child: topWidget
-          ),
+              child: topWidget),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 16 * MediaQuery.of(context).size.width / 320, right: 16 * MediaQuery.of(context).size.width / 320, top: 34),
+              padding: EdgeInsets.only(
+                  left: 16 * MediaQuery.of(context).size.width / 320,
+                  right: 16 * MediaQuery.of(context).size.width / 320,
+                  top: 34),
               height: 436,
               decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.only(
+                  color: Theme.of(context).colorScheme.background,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
-                  )
-              ),
+                  )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,16 +49,15 @@ class FrameScreenWidget extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Container(
                           //padding: EdgeInsets.only(bottom: 30),
-                          color: Theme.of(context).backgroundColor,
-                          child: mainWidget
-                      ),
+                          color: Theme.of(context).colorScheme.background,
+                          child: mainWidget),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -62,59 +68,58 @@ class FrameScreenWidget extends StatelessWidget {
                           decorator: DotsDecorator(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(
-                                    width: 1,
-                                    color: Color(0xFF000000)
-                                )
-                            ),
+                                side: const BorderSide(
+                                    width: 1, color: Color(0xFF000000))),
                             size: const Size.square(10.0),
                             color: Colors.transparent,
-                            activeColor: Color(0xFF000000),
+                            activeColor: const Color(0xFF000000),
                             activeSize: const Size(32.0, 10.0),
                             activeShape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(
-                                    width: 1,
-                                    color: Color(0xFF000000)
-                                )
-                            ),
+                                side: const BorderSide(
+                                    width: 1, color: Color(0xFF000000))),
                           ),
                         ),
-                        customBottomButton ?? InkWell(
-                          child: Container(
-                            width: 145,
-                            height: 37,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).scaffoldBackgroundColor,
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                    color: Color(0xFF000000),
-                                    width: 1
-                                )
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 24,
+                        customBottomButton ??
+                            InkWell(
+                              child: Container(
+                                width: 145,
+                                height: 37,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    border: Border.all(
+                                        color: const Color(0xFF000000),
+                                        width: 1)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 24,
+                                    ),
+                                    const Text(
+                                      "다음",
+                                      style: TextStyle(
+                                        fontFamily: "Inter",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF000000),
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right,
+                                      size: 24,
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  "다음",
-                                  style: TextStyle(
-                                    fontFamily: "Inter",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF000000),
-                                    height: 1.5,
-                                  ),
-                                ),
-                                Icon(Icons.chevron_right, size: 24,),
-                              ],
-                            ),
-                          ),
-                          onTap: onTapNext,
-                        )
+                              ),
+                              onTap: onTapNext,
+                            )
                       ],
                     ),
                   )

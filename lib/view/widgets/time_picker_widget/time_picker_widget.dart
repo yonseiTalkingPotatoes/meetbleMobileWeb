@@ -36,10 +36,9 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   int? _selectedShortCutIndex;
 
   void _selectShortCutTime(int index) {
-    if(_selectedShortCutIndex == null || _selectedShortCutIndex != index) {
+    if (_selectedShortCutIndex == null || _selectedShortCutIndex != index) {
       _selectedShortCutIndex = index;
-    }
-    else{
+    } else {
       _selectedShortCutIndex = null;
     }
   }
@@ -47,129 +46,132 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        widget.shortCutTime != null ?
-        Container(
-          padding: EdgeInsets.only(top: 14, bottom: 25),
-          height: 61,
-          child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            primary: false,
-            scrollDirection: Axis.horizontal,
-            itemCount: widget.shortCutTime!.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(right: 9),
-                child: TimeButton(
-                    onTap: (){
-                      setState((){
-                        widget.resetSelectedTime!.call();
-                        if(index != _selectedShortCutIndex){
-                          int startTime = widget.shortCutTime![index].start;
-                          for(int i = 0; i < widget.shortCutTime![index].duration; i++)  {
-                            widget.onTapTime!.call(startTime + i);
-                          }
-                        }
-                        _selectShortCutTime(index);
-                      });
-                    },
-                    isSelected: index == _selectedShortCutIndex,
-                    buttonText: widget.shortCutTime![index].rangeName
-                ),
-              );
-            },
-          ),
-        ) : Container(),
-        Center(
-          child: Text(
-            '6 AM',
-            style: TextStyle(
-              fontFamily: "Inter",
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF000000).withOpacity(0.5),
-              fontSize: 12,
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: widget.width,
-          height: widget.width,
-          child: Stack(
-            children: [
-              for(int i = 0; i < 24; i++)
-              Stack(
-                children: [
-                  ArcButton(
-                    radius: widget.width / 2,
-                    isSelected: widget.timeRange.contains(i),
-                    timeStatusList: widget.timeStatusList,
-                    time: i,
-                    startPoint: 2,
-                    onTap: (){
-                      setState((){
-                        widget.onTapTime!.call(i);
-                      });
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          widget.shortCutTime != null
+              ? Container(
+                  padding: const EdgeInsets.only(top: 14, bottom: 25),
+                  height: 61,
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    primary: false,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.shortCutTime!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 9),
+                        child: TimeButton(
+                            onTap: () {
+                              setState(() {
+                                widget.resetSelectedTime!.call();
+                                if (index != _selectedShortCutIndex) {
+                                  int startTime =
+                                      widget.shortCutTime![index].start;
+                                  for (int i = 0;
+                                      i < widget.shortCutTime![index].duration;
+                                      i++) {
+                                    widget.onTapTime!.call(startTime + i);
+                                  }
+                                }
+                                _selectShortCutTime(index);
+                              });
+                            },
+                            isSelected: index == _selectedShortCutIndex,
+                            buttonText: widget.shortCutTime![index].rangeName),
+                      );
                     },
                   ),
+                )
+              : Container(),
+          Center(
+            child: Text(
+              '6 AM',
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF000000).withOpacity(0.5),
+                fontSize: 12,
+              ),
+            ),
+          ),
+          Container(
+              alignment: Alignment.center,
+              width: widget.width,
+              height: widget.width,
+              child: Stack(
+                children: [
+                  for (int i = 0; i < 24; i++)
+                    Stack(
+                      children: [
+                        ArcButton(
+                          radius: widget.width / 2,
+                          isSelected: widget.timeRange.contains(i),
+                          timeStatusList: widget.timeStatusList,
+                          time: i,
+                          startPoint: 2,
+                          onTap: () {
+                            setState(() {
+                              widget.onTapTime!.call(i);
+                            });
+                          },
+                        ),
+                        CustomPaint(
+                          painter: ArcPainter(
+                              radius: widget.width / 2,
+                              time: i,
+                              radiusRatio: 2 / 3,
+                              isSelected: widget.timeRange.contains(i),
+                              offTimeTextStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color:
+                                      const Color(0xFF000000).withOpacity(0.3),
+                                  fontSize: 8),
+                              textPadding: 3),
+                        )
+                      ],
+                    ),
                   CustomPaint(
-                    painter: ArcPainter(
-                        radius: widget.width / 2,
-                        time: i,
-                        radiusRatio: 2/3,
-                        isSelected: widget.timeRange.contains(i),
-                        offTimeTextStyle: TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF000000).withOpacity(0.3), fontSize: 8),
-                        textPadding: 3
+                    painter: BackgroundPainter(
+                        radius: widget.width / 2, radiusRatio: 2 / 3),
+                    foregroundPainter: HorizontalBorderPainter(
+                      textPadding: 3,
+                      radius: widget.width / 2,
+                      isPmSelected: widget.timeRange.contains(11),
+                      isAmSelected: widget.timeRange.contains(23),
+                      offHorizontalBorderTimeTextStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF000000).withOpacity(0.5),
+                        fontSize: 8,
+                      ),
+                      onHorizontalBorderTimeTextStyle: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF000000),
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: CircleAvatar(
+                      radius: widget.width / 3,
+                      backgroundImage: const AssetImage(
+                        "assets/images/time.png",
+                      ),
                     ),
                   )
                 ],
+              )),
+          Center(
+            child: Text(
+              '6 PM',
+              style: TextStyle(
+                fontFamily: "Inter",
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF000000).withOpacity(0.5),
+                fontSize: 12,
               ),
-              CustomPaint(
-                painter: BackgroundPainter(radius: widget.width / 2, radiusRatio: 2/3),
-                foregroundPainter: HorizontalBorderPainter(
-                  textPadding: 3,
-                  radius: widget.width/2,
-                  isPmSelected: widget.timeRange.contains(11),
-                  isAmSelected: widget.timeRange.contains(23),
-                  offHorizontalBorderTimeTextStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF000000).withOpacity(0.5),
-                    fontSize: 8,
-                  ),
-                  onHorizontalBorderTimeTextStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF000000),
-                    fontSize: 8,
-                  ),
-                ),
-              ),
-              Center(
-                child: CircleAvatar(
-                  radius: widget.width /3,
-                  backgroundImage: AssetImage(
-                    "assets/images/time.png",
-                  ),
-                ),
-              )
-            ],
-          )
-        ),
-        Center(
-          child: Text(
-            '6 PM',
-            style: TextStyle(
-              fontFamily: "Inter",
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF000000).withOpacity(0.5),
-              fontSize: 12,
             ),
           ),
-        ),
-      ]
-    );
+        ]);
   }
 }
-
-
